@@ -1,6 +1,7 @@
 //import logo from "./logo.svg";
 import "./App.css";
-import MyComponent from "./MyComponent";
+//import MyComponent from "./MyComponent";
+import CaptureCanvas from "./CaptureCanvas";
 
 function App() {
   return (
@@ -18,9 +19,11 @@ function App() {
     //     >
     //       Learn React
     //     </a>
+
     //   </header>
     // </div>
-    <MyComponent>여기에 들어오는 애는 children</MyComponent>
+    // <MyComponent name="김수현"></MyComponent>
+    <CaptureCanvas />
   );
 }
 
