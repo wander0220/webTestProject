@@ -1,6 +1,12 @@
 import html2canvas from "html2canvas";
+import styled from "styled-components";
 
-function CaptureCanvas() {
+const DivBox = styled.div`
+  width: 50%;
+  margin-bottom: 3em;
+`;
+
+const CaptureCanvas = () => {
   function onCapture() {
     // console.log("onCapture");
     html2canvas(document.getElementById("div")).then((canvas) => {
@@ -19,8 +25,29 @@ function CaptureCanvas() {
     });
   }
 
+  function printImage() {
+    // var file = document.getElementById("idFile");
+    // value를 사용하면 에러남.
+    //console.log(file.val);
+
+    var canvas = document.getElementById("imgCanvas");
+    canvas.width = 300;
+    canvas.height = 300;
+    canvas.style.border = "1px solid black";
+    var context = canvas.getContext("2d");
+
+    var img = new Image();
+    img.src =
+      "https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png";
+    img.onload = function () {
+      context.drawImage(img, 0, 0, 300, 300);
+    };
+
+    // const name =
+    // console.log(name);
+  }
   return (
-    <>
+    <DivBox>
       <div id="div">
         <h1>Lorem ipsum</h1>
         <p>
@@ -39,8 +66,15 @@ function CaptureCanvas() {
         />
         <input type="button" value="화면 캡쳐 저장" onClick={onCapture} />
       </div>
+      <div>
+        <input type="file" id="isFile" />
+        <input type="submit" value="출력" onClick={printImage} />
+        <canvas id="imgCanvas" height="0em"></canvas>
+      </div>
+
       <div id="captureImage"></div>
-    </>
+    </DivBox>
   );
-}
+};
+
 export default CaptureCanvas;
