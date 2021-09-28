@@ -1,22 +1,23 @@
 import React, { useState } from "react";
+// import video from "./video/Sunrise.mp4";
 
 const VideoLoader = () => {
-  // const [videoFile, setVideoFile] = useState("");
-  // const [videoURL, setVideoURL] = useState(null); //파일
+  const [videoFile, setVideoFile] = useState("");
+  const [videoURL, setVideoURL] = useState(null); //파일
 
   const handleChangeFile = (event) => {
-    // let reader = new FileReader();
-    // reader.onloadend = () => {
-    //   // 2. 읽기가 완료되면 아래코드가 실행됩니다.
-    //   const base = reader.result;
-    //   if (base) {
-    //     setVideoFile(base.toString()); // 파일 base64 상태 업데이트
-    //   }
-    // };
-    // if (event.target.files[0]) {
-    //   reader.readAsDataURL(event.target.files[0]); // 1. 파일을 읽어 버퍼에 저장합니다.
-    //   setVideoURL(event.target.files[0]); // 파일 상태 업데이트
-    // }
+    let reader = new FileReader();
+    reader.onloadend = () => {
+      // 2. 읽기가 완료되면 아래코드가 실행됩니다.
+      const base = reader.result;
+      if (base) {
+        setVideoFile(base.toString()); // 파일 base64 상태 업데이트
+      }
+    };
+    if (event.target.files[0]) {
+      reader.readAsDataURL(event.target.files[0]); // 1. 파일을 읽어 버퍼에 저장합니다.
+      setVideoURL(event.target.files[0]); // 파일 상태 업데이트
+    }
   };
 
   let blobs;
@@ -38,7 +39,7 @@ const VideoLoader = () => {
     }); // mediaRecorder객체 생성
     rec.ondataavailable = (e) => blobs.push(e.data);
     rec.onstop = async () => {
-      blob = new Blob(blobs, { type: "video/webm" });
+      blob = new Blob(blobs, { type: "video/mp4" });
       let url = window.URL.createObjectURL(blob);
       const download = document.createElement("a");
       download.setAttribute("href", url);
@@ -62,9 +63,9 @@ const VideoLoader = () => {
           accept="video/*"
           onChange={handleChangeFile}
         />
-        <video controls>
-          <source src="Sunrise.mp4" /> 영상왜안됨..?
-        </video>
+        <div>
+          <video controls autoPlay muted src={videoFile} alt="" />
+        </div>
       </div>
       <div>
         <button id="startBtn" onClick={startRecord}>
