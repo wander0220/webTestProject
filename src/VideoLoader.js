@@ -57,23 +57,20 @@ const VideoLoader = () => {
   return (
     <>
       <div>
-        <input
-          type="file"
-          id="isFile"
-          accept="video/*"
-          onChange={handleChangeFile}
-        />
+        <input type="file" accept="video/*" onChange={handleChangeFile} />
         <div>
-          <video controls autoPlay muted src={videoFile} alt="" />
+          <video
+            controls
+            autoPlay
+            muted
+            src={videoFile}
+            alt="사이트 녹화영상 재생"
+          />
         </div>
       </div>
       <div>
-        <button id="startBtn" onClick={startRecord}>
-          녹화
-        </button>
-        <button id="stopBtn" onClick={stopRecord}>
-          녹화 중지
-        </button>
+        <button onClick={startRecord}>녹화</button>
+        <button onClick={stopRecord}>녹화 중지</button>
       </div>
     </>
   );
