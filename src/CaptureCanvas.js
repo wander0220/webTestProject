@@ -1,5 +1,6 @@
 import html2canvas from "html2canvas";
 import styled from "styled-components";
+import React, { useState } from "react";
 
 const DivBox = styled.div`
   width: 50%;
@@ -7,45 +8,44 @@ const DivBox = styled.div`
 `;
 
 const CaptureCanvas = () => {
-  function onCapture() {
-    // console.log("onCapture");
+  const onCapture = (event) => {
     html2canvas(document.getElementById("div")).then((canvas) => {
       var link = document.createElement("a");
       document.body.appendChild(link);
       link.href = canvas.toDataURL("image/png");
-      link.download = "image-download.png";
+      var now = new Date();
+      link.download =
+        now.getFullYear() + "_" + now.getMonth() + "_" + now.getDate() + ".png";
       link.click();
       document.body.removeChild(link);
     });
-  }
+  };
 
-  function showCaptureImage() {
-    html2canvas(document.getElementById("div")).then((canvas) => {
-      document.getElementById("captureImage").appendChild(canvas);
-    });
-  }
+  // function showCaptureImage() {
+  //   html2canvas(document.getElementById("div")).then((canvas) => {
+  //     document.getElementById("captureImage").appendChild(canvas);
+  //   });
+  // }
 
-  function printImage() {
-    // var file = document.getElementById("idFile");
-    // value를 사용하면 에러남.
-    //console.log(file.val);
+  // 이미지 출력
+  const [imgBase64, setImgBase64] = useState("");
+  const [imgFile, setImgFile] = useState(null); //파일
 
-    var canvas = document.getElementById("imgCanvas");
-    canvas.width = 300;
-    canvas.height = 300;
-    canvas.style.border = "1px solid black";
-    var context = canvas.getContext("2d");
-
-    var img = new Image();
-    img.src =
-      "https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png";
-    img.onload = function () {
-      context.drawImage(img, 0, 0, 300, 300);
+  const handleChangeFile = (event) => {
+    let reader = new FileReader();
+    reader.onloadend = () => {
+      // 2. 읽기가 완료되면 아래코드가 실행됩니다.
+      const base64 = reader.result;
+      if (base64) {
+        setImgBase64(base64.toString()); // 파일 base64 상태 업데이트
+      }
     };
+    if (event.target.files[0]) {
+      reader.readAsDataURL(event.target.files[0]); // 1. 파일을 읽어 버퍼에 저장합니다.
+      setImgFile(event.target.files[0]); // 파일 상태 업데이트
+    }
+  };
 
-    // const name =
-    // console.log(name);
-  }
   return (
     <DivBox>
       <div id="div">
@@ -59,20 +59,19 @@ const CaptureCanvas = () => {
           pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
           culpa qui officia deserunt mollit anim id est laborum.
         </p>
-        <input
-          type="button"
-          value="화면 캡쳐 출력"
-          onClick={showCaptureImage}
-        />
-        <input type="button" value="화면 캡쳐 저장" onClick={onCapture} />
+        <input type="button" value="화면 캡쳐" onClick={onCapture} />
       </div>
       <div>
-        <input type="file" id="isFile" />
-        <input type="submit" value="출력" onClick={printImage} />
-        <canvas id="imgCanvas" height="0em"></canvas>
+        <input
+          type="file"
+          id="isFile"
+          accept="image/*"
+          onChange={handleChangeFile}
+        />
+        <div id="imgCanvas">
+          <img src={imgBase64} alt="캡쳐화면출력" />
+        </div>
       </div>
-
-      <div id="captureImage"></div>
     </DivBox>
   );
 };
