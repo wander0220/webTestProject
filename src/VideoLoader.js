@@ -20,30 +20,31 @@ const VideoLoader = () => {
     }
   };
 
-  let blobs;
-  let blob;
   let rec;
-  let stream;
   let desktopStream;
 
   const startRecord = async () => {
     desktopStream = await navigator.mediaDevices.getDisplayMedia({
       video: { width: 1280, height: 720 },
     });
-    blobs = [];
+    let blobs = [];
     const tracks = [...desktopStream.getVideoTracks()];
 
-    stream = new MediaStream(tracks);
+    let stream = new MediaStream(tracks);
     rec = new MediaRecorder(stream, {
       mimeType: "video/webm; codecs=vp9,opus",
     }); // mediaRecorder객체 생성
     rec.ondataavailable = (e) => blobs.push(e.data);
     rec.onstop = async () => {
-      blob = new Blob(blobs, { type: "video/mp4" });
+      let blob = new Blob(blobs, { type: "video/mp4" });
       let url = window.URL.createObjectURL(blob);
+      var now = new Date();
       const download = document.createElement("a");
       download.setAttribute("href", url);
-      download.setAttribute("download", "test");
+      download.setAttribute(
+        "download",
+        now.getFullYear() + "_" + now.getMonth() + "_" + now.getDate()
+      );
       download.click();
     };
     rec.start(); // 녹화 시작

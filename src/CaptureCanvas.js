@@ -14,8 +14,7 @@ const CaptureCanvas = () => {
       document.body.appendChild(link);
       link.href = canvas.toDataURL("image/png");
       var now = new Date();
-      link.download =
-        now.getFullYear() + "_" + now.getMonth() + "_" + now.getDate() + ".png";
+      link.download = now.getFullYear() + now.getMonth() + now.getDate() + ".png";
       link.click();
       document.body.removeChild(link);
     });

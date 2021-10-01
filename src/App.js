@@ -1,14 +1,16 @@
 //import logo from "./logo.svg";
 import "./App.css";
-//import MyComponent from "./MyComponent";
+// import MyComponent from "./MyComponent";
 // import CaptureCanvas from "./CaptureCanvas";
-import VideoLoader from "./VideoLoader";
+// import VideoLoader from "./VideoLoader";
+import SearchInMap from "./SearchInMap";
 
 function App() {
   return (
     <>
       {/* <CaptureCanvas /> */}
-      <VideoLoader />
+      {/* <VideoLoader /> */}
+      <SearchInMap></SearchInMap>
     </>
   );
 }
