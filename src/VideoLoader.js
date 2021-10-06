@@ -49,6 +49,17 @@ const VideoLoader = () => {
     };
     rec.start(); // 녹화 시작
   };
+
+  const pauseRecord = () => {
+    if (rec.state === "recording") {
+      rec.pause();
+    }
+    else if (rec.state === "paused") {
+      rec.resume();
+    }
+
+  }
+
   const stopRecord = () => {
     rec.stop(); // 화면녹화 종료 및 녹화된 영상 다운로드
     desktopStream.getTracks().forEach((s) => s.stop());
@@ -71,6 +82,7 @@ const VideoLoader = () => {
       </div>
       <div>
         <button onClick={startRecord}>녹화</button>
+        <button onClick={pauseRecord}>녹화 정지</button>
         <button onClick={stopRecord}>녹화 중지</button>
       </div>
     </>
